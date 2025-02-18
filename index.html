@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clipboard Monitor</title>
+</head>
+<body>
+    <h1>Clipboard Monitor</h1>
+    <p>The title of this tab will update whenever clipboard content changes.</p>
+
+    <script>
+        const socket = new WebSocket("ws://localhost:8080");
+
+        socket.onopen = () => {
+            console.log("WebSocket connection established.");
+        };
+
+        socket.onmessage = (event) => {
+            const clipboardContent = event.data;
+            document.title = clipboardContent;
+        };
+
+        socket.onerror = (error) => {
+            console.error("WebSocket Error: ", error);
+        };
+
+        socket.onclose = () => {
+            console.log("WebSocket connection closed.");
+        };
+    </script>
+</body>
+</html>
+

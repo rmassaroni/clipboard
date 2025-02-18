@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebSocket Client</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        #output { white-space: pre-wrap; background-color: #f0f0f0; padding: 10px; margin-top: 20px; border: 1px solid #ccc; }
+        #message { width: 100%; padding: 10px; margin-top: 10px; }
+        #send { padding: 10px; margin-top: 10px; }
+    </style>
+</head>
+<body>
+    <h1>WebSocket Client</h1>
+    <div id="output">Connecting...</div>
+    <input type="text" id="message" placeholder="Type your message here">
+    <button id="send">Send Message</button>
+
+    <script>
+        // Create a WebSocket connection
+        const socket = new WebSocket('ws://localhost:9000');  // Update the address if needed
+
+        // Get references to DOM elements
+        const output = document.getElementById('output');
+        const messageInput = document.getElementById('message');
+        const sendButton = document.getElementById('send');
+
+        // Handle the WebSocket connection open event
+        socket.onopen = () => {
+            output.textContent = 'Connected to server. You can start sending messages!';
+        };
+
+        // Handle messages received from the WebSocket server
+        socket.onmessage = (event) => {
+            output.textContent += '\nReceived from server: ' + event.data;
+        };
+
+        // Handle WebSocket errors
+        socket.onerror = (error) => {
+            output.textContent = 'Error: ' + error.message;
+        };
+
+        // Handle WebSocket connection close event
+        socket.onclose = () => {
+            output.textContent += '\nDisconnected from server.';
+        };
+
+        // Send a message when the Send button is clicked
+        sendButton.addEventListener('click', () => {
+            const message = messageInput.value;
+            if (message) {
+                socket.send(message);
+                output.textContent += '\nSent to server: ' + message;
+                messageInput.value = '';  // Clear the input field
+            }
+        });
+
+        // Optional: Send a message when the Enter key is pressed
+        messageInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                sendButton.click();
+            }
+        });
+    </script>
+</body>
+</html>
+

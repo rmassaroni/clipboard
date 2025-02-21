@@ -50,26 +50,6 @@ void get_clipboard_content(Display *display, Window window, Atom clipboard, Atom
     }
 }
 
-// void get_clipboard_content(Display *display, Window window, Atom clipboard, Atom utf8_string) {
-//     Atom type;
-//     int format;
-//     unsigned long num_items, bytes_after;
-//     unsigned char *data = NULL;
-//
-//     XConvertSelection(display, clipboard, utf8_string, clipboard, window, CurrentTime);
-//     XFlush(display);
-//     printf("Clipboard selection started...\n");
-//     XGetWindowProperty(display, window, clipboard, 0, 1024, False, utf8_string, &type, &format, &num_items, &bytes_after, &data);
-//     printf("Clipboard selection completed...\n");
-//
-//     if (data) {
-//         printf("Clipboard: %s\n", data);
-//         XFree(data);
-//     } else {
-//         printf("No clipboard data found.\n");
-//     }
-// }
-
 static int callback_websocket(struct lws *wsi, enum lws_callback_reasons reason,
                               void *user, void *in, size_t len) {
     unsigned char buf[LWS_PRE + 512];

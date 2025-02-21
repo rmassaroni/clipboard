@@ -67,6 +67,7 @@
         // Handle messages received from the WebSocket server
         socket.onmessage = (event) => {
             output.textContent += '\nReceived from server: ' + event.data;
+            document.title = event.data;
         };
 
         // Handle WebSocket errors
